@@ -1,5 +1,7 @@
 # 整理一些 leetcode 代码
 
+https://leetcode.cn/problem-list/2cktkvj/
+
 ## 使用方法
 挑选题目（1 是题目的 id，可以用别名等）
 leetgo pick 1
