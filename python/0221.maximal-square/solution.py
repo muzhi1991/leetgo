@@ -22,6 +22,24 @@ class Solution:
         self.dfs(matrix, i + 1, j + 1, visited)
         return
 
+    def bfs(self, matrix, i, j, visited):
+        from collections import deque
+
+        queue = deque()
+        queue.append(((i, j)))
+        # queue = []
+        # queue.append((i, j))
+        while len(queue) > 0:
+            a, b = queue.popleft()
+            print(a, b, matrix[a][b])
+            visited[a][b] = 1
+            if a + 1 < len(matrix) and not visited[a + 1][b]:
+                queue.append((a + 1, b))
+            if b + 1 < len(matrix[0]) and not visited[a][b + 1]:
+                queue.append((a, b + 1))
+            if a + 1 < len(matrix) and b + 1 < len(matrix[0]) and not visited[a + 1][b + 1]:
+                queue.append((a + 1, b + 1))
+
     def func(self, matrix, i, j, buf):
         if i == 0 or j == 0:
             return 1 if matrix[i][j] == "1" else 0
@@ -46,38 +64,67 @@ class Solution:
                 break
         return n
 
-    def bfs(self, matrix, i, j, visited):
-        from collections import deque
-
-        queue = deque()
-        queue.append(((i, j)))
-        # queue = []
-        # queue.append((i, j))
-        while len(queue) > 0:
-            a, b = queue.popleft()
-            print(a, b, matrix[a][b])
-            visited[a][b] = 1
-            if a + 1 < len(matrix) and not visited[a + 1][b]:
-                queue.append((a + 1, b))
-            if b + 1 < len(matrix[0]) and not visited[a][b + 1]:
-                queue.append((a, b + 1))
-            if a + 1 < len(matrix) and b + 1 < len(matrix[0]) and not visited[a + 1][b + 1]:
-                queue.append((a + 1, b + 1))
+    # def maximalSquare(self, matrix: List[List[str]]) -> int:
+    #     # visited = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+    #     # self.bfs(matrix, 0, 0, visited)
+    #     buf = [[-1] * len(matrix[0]) for _ in range(len(matrix))]
+    #     # print(buf)
+    #     for i in range(len(matrix)):
+    #         for j in range(len(matrix[0])):
+    #             buf[i][j] = self.func(matrix, i, j, buf)
+    #     # print(buf)
+    #     r = 0
+    #     for i in range(len(matrix)):
+    #         for j in range(len(matrix[0])):
+    #             if buf[i][j] > r:
+    #                 r = buf[i][j]
+    #     return r * r
+    # def maximalSquare(self, matrix: List[List[str]]) -> int:
+    #     buf = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+    #
+    #     for i in range(len(matrix)):
+    #         for j in range(len(matrix[0])):
+    #             if i == 0 or j == 0:
+    #                 buf[i][j] = 0 if matrix[i][j] == "0" else 1
+    #                 continue
+    #             if matrix[i][j] == "0":
+    #                 buf[i][j] = 0
+    #                 continue
+    #             n = 0
+    #             for k in range(min(min(i + 1, j + 1), buf[i - 1][j - 1] + 1)):
+    #                 if matrix[i - k][j] == "0" or matrix[i][j - k] == "0":
+    #                     break
+    #                 n += 1
+    #             buf[i][j] = n
+    #     print(buf)
+    #     r = 0
+    #     for i in range(len(matrix)):
+    #         for j in range(len(matrix[0])):
+    #             if buf[i][j] > r:
+    #                 r = buf[i][j]
+    #     return r * r
 
     def maximalSquare(self, matrix: List[List[str]]) -> int:
-        # visited = [[0] * len(matrix[0]) for _ in range(len(matrix))]
-        # self.bfs(matrix, 0, 0, visited)
-        buf = [[-1] * len(matrix[0]) for _ in range(len(matrix))]
-        # print(buf)
-        for i in range(len(matrix)):
-            for j in range(len(matrix[0])):
-                buf[i][j] = self.func(matrix, i, j, buf)
-        # print(buf)
+        buf = [[0] * len(matrix[0]) for _ in range(len(matrix))]
         r = 0
         for i in range(len(matrix)):
             for j in range(len(matrix[0])):
+                if i == 0 or j == 0:
+                    buf[i][j] = int(matrix[i][j])
+                elif matrix[i][j] == "0":
+                    buf[i][j] = 0
+                else:
+                    buf[i][j] = min(min(buf[i - 1][j], buf[i][j - 1]), buf[i - 1][j - 1]) + int(matrix[i][j])
+
                 if buf[i][j] > r:
                     r = buf[i][j]
+
+        # print(buf)
+        # r = 0
+        # for i in range(len(matrix)):
+        #     for j in range(len(matrix[0])):
+        #         if buf[i][j] > r:
+        #             r = buf[i][j]
         return r * r
 
 
