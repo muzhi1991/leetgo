@@ -1,0 +1,14 @@
+input:
+"52233"
+output:
+4
+
+input:
+"5494"
+output:
+4
+
+input:
+"1111111"
+output:
+2
